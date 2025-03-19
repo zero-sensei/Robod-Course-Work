@@ -5,9 +5,11 @@ from pandas import DataFrame
 class DataPreprocessor:
     def __init__(self, data):
         self.data: DataFrame = data
+        self.removed_data = []
 
     def clean_data(self):
-        self.data.drop(columns=['ID', 'BGG Rank', 'Complexity Average'], inplace=True)
+        self.removed_data = self.data[['ID', 'Name', 'BGG Rank', 'Complexity Average']]
+        self.data.drop(columns=['ID', 'Name', 'BGG Rank', 'Complexity Average'], inplace=True)
         self.data.dropna(inplace=True)
         self.data.drop_duplicates(inplace=True)
         self.data = self.data[self.data['Year Published'] > 1900]
